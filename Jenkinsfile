@@ -19,5 +19,16 @@ pipeline {
                 '''
             }
         }
+        stage('Test1') {
+            agent{
+                 reuseNode true
+                
+            }
+            steps {
+                sh '''
+                   npm run test
+                '''
+            }
+        }
     }
 }
