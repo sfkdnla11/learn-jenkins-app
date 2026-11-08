@@ -11,6 +11,7 @@ pipeline {
             }
             steps {
                 sh '''
+                   mkdir -p build
                    ls -la
                    node --version
                    npm --version
@@ -30,6 +31,7 @@ pipeline {
             steps {
                 sh '''
                    npm run test
+                   test -f build/index.html
                 '''
             }
         }
