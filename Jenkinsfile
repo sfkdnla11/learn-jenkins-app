@@ -77,7 +77,7 @@ pipeline {
             steps {
                 sh '''
                    npm install @playwright/cli@latest
-                   playwright-cli --help
+                   node_modules/.bin/playwright-cli --help
                    node_modules/.bin/netlify --version
                 '''
             }
