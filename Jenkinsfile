@@ -22,6 +22,7 @@ pipeline {
         }
 
         stage ('Tests'){
+
             parallel{
             stage('Test1') {
             agent{
@@ -38,6 +39,7 @@ pipeline {
                 '''
             }
             post{
+
         always{
             junit 'jest-results/junit.xml'
         }
@@ -60,6 +62,23 @@ pipeline {
                   npx playwright test --reporter=html
                 '''
             }
+               stage('Deploy') {
+            agent{
+                docker{
+                    image 'node:22-alpine'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh '''
+                   npm install @playwright/cli@latest
+                   playwright-cli --help
+                   node_modules/.bin/netlify --version
+
+                '''
+            }
+        }
+            
             post{
         always{
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
